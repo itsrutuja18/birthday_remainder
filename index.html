@@ -3,14 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Birthday Reminder</title>
+    <title>Bouncing Gift Box with Password</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f1f1f1;
+            font-family: Arial, sans-serif;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        /* Bouncing Gift Box - Centered */
+        .gift-box {
+            width: 200px;
+            height: 200px;
+            cursor: pointer;
+            position: absolute;
+            animation: bounce 2s infinite ease-in-out;
+        }
+
+        /* Explosion Effect */
+        .explosion {
+            display: none;
+            font-size: 40px;
+            font-weight: bold;
+            color: #000000;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+            text-align: center;
+        }
+
+        /* Password Input */
+        .password-box {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            font-size: 18px;
+            border: 2px solid #d00ea9;
+            border-radius: 5px;
+            outline: none;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ff4081;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        
+
+        /* Password Hint */
+        .hint {
+            margin-top: 10px;
+            font-size: 18px;
+            color: #4f4d4d;
+        }
+
+        /* Final Message */
+        .final-message {
+            display: none;
+            font-size: 24px;  /* Reduced the font size */
+            font-weight: normal;  /* Changed to normal weight */
+            color: darkblue;  /* Changed to dark blue */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 1s ease-in-out;
+            text-align: center;
+            padding: 0 100px;
+        }
+
+        /* Wrong Password Message */
+        .wrong-password {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .wrong-password img {
+            width: 100px;
+            height: auto;
+        }
+
+        .wrong-password p {
+            font-size: 18px;
+            color: rgb(186, 26, 201);
+            font-weight: bold;
+        }
+
+        /* Bouncing Animation */
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-30px); }
+        }
+
+        /* Explosion Effect */
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.5); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+    </style>
 </head>
 <body>
 
-    <h2>Enter Your Date & Time of Birth</h2>
-    <input type="datetime-local" id="dobInput">
-    <button onclick="saveDOB()">Save DOB</button>
+    <!-- Gift Box Image (Centered) -->
+    <img src="gift_box.png" alt="Gift Box" class="gift-box" id="giftBox" onclick="openGift()">
 
-    <script src="script.js"></script>
+    <!-- Happy Birthday Message -->
+    <div class="explosion" id="message">🎉 Happy Birthday! 🎉</div>
+
+    <!-- Password Input -->
+    <div class="password-box" id="passwordBox">
+        <input type="password" id="passwordInput" placeholder="Enter Password">
+        <button onclick="checkPassword()">Submit</button>
+        <p class="hint">Hint: D----....</p>
+    </div>
+
+    <!-- Wrong Password Message -->
+    <div class="wrong-password" id="wrongMessage">
+        <img src="cat.png" alt="Middle Finger">
+        <p>My bad 🥲😬😵</p>
+        <p>No prb.. galtiya insaan se hoti h</p>
+        <p>Keep Trying.. You can guess it 😎</p>
+    </div>
+
+    
+
+    <!-- Final Message -->
+    <div class="final-message" id="finalMessage">
+        Hey! No matter what, I know you're doing something good in life and you're happy. Just wanted to say that I hope your birthday is amazing, you enjoy it, and always stay happy. Wishing you a year filled with happiness, love, and all your dreams coming true. And don't worry, I'm not here to spoil things 😆😂 Happy Birthday!
+    </div>
+    
+    <!-- Audio -->
+    <audio id="birthdayAudio">
+        <source src="happy_birthday.mp3" type="audio/mp3">
+    </audio>
+
+    <script>
+        function openGift() {
+            const giftBox = document.getElementById('giftBox');
+            const message = document.getElementById('message');
+            const passwordBox = document.getElementById('passwordBox');
+            const audio = document.getElementById("birthdayAudio");
+
+            // Hide the gift box
+            giftBox.style.display = "none";
+
+            // Show the message and password input
+            message.style.display = "block";
+            setTimeout(() => {
+                passwordBox.style.display = "block";
+            }, 1000); // Show password input after 1 second
+
+            // Play the birthday song
+            audio.play();
+        }
+
+        function checkPassword() {
+            const password = document.getElementById('passwordInput').value.toLowerCase();
+            const finalMessage = document.getElementById('finalMessage');
+            const wrongMessage = document.getElementById('wrongMessage');
+            const passwordBox = document.getElementById('passwordBox');
+            const message = document.getElementById('message'); // Get the birthday message element
+
+            if (password === "darlu") {
+                passwordBox.style.display = "none"; // Hide password input
+                wrongMessage.style.display = "none"; // Hide wrong password message
+                finalMessage.style.display = "block"; // Show final message
+                message.style.display = "none"; // Hide the "Happy Birthday" message
+            } else {
+                wrongMessage.style.display = "block"; // Show wrong password message
+            }
+        }
+
+    </script>
+
 </body>
 </html>
